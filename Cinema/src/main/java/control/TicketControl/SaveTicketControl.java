@@ -1,11 +1,14 @@
-package control.UserControl;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-import dao.UserDAO;
-import entities.User;
+package control.TicketControl;
+
+import dao.SeatDAO;
+import dao.SessionDAO;
+import dao.TicketDAO;
+import entities.Session;
+import entities.Ticket;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,14 +16,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 /**
  *
  * @author tienp
  */
-@WebServlet(urlPatterns = {"/login"})
-public class LoginControl extends HttpServlet {
+@WebServlet(name = "SaveTicketControl", urlPatterns = {"/saveTicket"})
+public class SaveTicketControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,30 +37,22 @@ public class LoginControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("login");
-        String password = request.getParameter("password");
-        System.out.println(email);
-        System.out.println(password);
-        if (email == null || email.trim().isEmpty()) {
-            request.setAttribute("email_empty", true);
-            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-        } else {
-            UserDAO dao = new UserDAO();
-            User u = dao.login(email.trim(), password);
-            System.out.println(u);
-            if (u == null) {
-                request.setAttribute("email_invalid", true);
-                request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("acc", u);
-                session.setAttribute("userRole", u.getUserRole());
-                if (request.getParameter("rememberMe") != null) {
-                    session.setMaxInactiveInterval(600000);
-                }
-                response.sendRedirect("main");
-            }
+        TicketDAO tdao = new TicketDAO();
+        SeatDAO seatdao = new SeatDAO();
+        SessionDAO sessiondao = new SessionDAO();
+        HttpSession session = request.getSession();
+        
+        List<Ticket> tickets = (List<Ticket>) session.getAttribute("ticketList");
+        for(Ticket t : tickets){
+            tdao.addTicket(t);
+            Session s = t.getSession();
+            s.setSeatsAmount((s.getSeatsAmount() - 1));
+            sessiondao.updateSession(s);
+            seatdao.deleteFreeSeatBySeatId(s.getId(),t.getSeat().getId());
         }
+        
+        session.removeAttribute("ticketList");
+        request.getRequestDispatcher("/jsp/successPay.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

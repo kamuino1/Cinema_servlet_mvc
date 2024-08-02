@@ -42,23 +42,25 @@ public class SessionInforControl extends HttpServlet {
         FilmDAO filmDao = new FilmDAO();
         SessionDAO sessionDao = new SessionDAO();
         SeatDAO seatDao = new SeatDAO();
-                RoomDAO roomDao = new RoomDAO();
+        RoomDAO roomDao = new RoomDAO();
 
+//        int sessionid = Integer.parseInt(request.getParameter("sessionId"));
+//        Session s = sessionDao.getSessionById(sessionid);
+//        s.getFilm().setGenreList(filmDao.getGenresFilm(s.getFilm().getId()));
+//        s.setRoom(roomDao.getRoomById(s.getRoom().getId()));
         int sessionid = Integer.parseInt(request.getParameter("sessionId"));
         Session s = sessionDao.getSessionById(sessionid);
         s.getFilm().setGenreList(filmDao.getGenresFilm(s.getFilm().getId()));
         s.setRoom(roomDao.getRoomById(s.getRoom().getId()));
-
-        List<Seat> allSeat = seatDao.getAllSeats();
+        List<Seat> allSeat = seatDao.getAllSeatsByRoomId(s.getRoom().getId());
         List<Seat> freeSeat = seatDao.getAllFreeSeats(sessionid);
-        
+
         request.setAttribute("session", s);
         request.setAttribute("allSeatList", allSeat);
         request.setAttribute("freeSeatList", freeSeat);
-        
+
         request.getRequestDispatcher("/jsp/adminPages/sessionInfo.jsp").forward(request, response);
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -80,7 +82,6 @@ public class SessionInforControl extends HttpServlet {
         }
     }
 
-    
     @Override
     public String getServletInfo() {
         return "Short description";

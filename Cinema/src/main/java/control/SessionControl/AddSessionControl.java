@@ -8,6 +8,7 @@ import dao.FilmDAO;
 import dao.RoomDAO;
 import dao.SeatDAO;
 import dao.SessionDAO;
+import entities.Seat;
 import entities.Session;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +65,12 @@ public class AddSessionControl extends HttpServlet {
         request.setAttribute("cond", true);
         if (sdao.checkSession(session)) {
             sdao.addSession(session);
-            seatdao.addFreeSeats(sdao.getIdSession(filmid, roomid, sdate, stime), roomid);
+            int sessionid = sdao.getIdSession(session.getFilm().getId(), session.getRoom().getId(), sdate, stime);
+            System.out.println("SessionID: " + sessionid);
+            List<Seat> seatList = seatdao.getAllSeatsByRoomId(roomid);
+            for(Seat s : seatList){
+                seatdao.addFreeSeats(sessionid, s.getId());
+            }
             request.setAttribute("mess", "Đã thêm Session thành công");
         } else {
 

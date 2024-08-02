@@ -63,6 +63,7 @@
                                             <c:set var="session" value="${ticket.session}"/>
                                             <c:set var="film" value="${session.film}"/>
                                             <c:set var="seat" value="${ticket.seat}"/>
+                                            <c:set var="room" value="${session.room}"/>
 
                                             <div class="card w-75 mx-auto my-1">
                                                 <div class="row px-4 py-2">
@@ -70,6 +71,7 @@
                                                         <h3>${ticketTitle}: </h3>
                                                         <h6>${dateTitle}: ${session.date}</h6>
                                                         <h6>${time}: ${session.time}</h6>
+                                                        <h6>Room: ${room.roomName}</h6>
                                                         <h6>${seatRowTitle}: ${seat.rowNumber}</h6>
                                                         <h6>${seatPlaceTitle}: ${seat.placeNumber}</h6>
                                                         <h6>${filmTitle}: ${film.name}</h6>
@@ -97,6 +99,16 @@
                                                                 <button type="submit"
                                                                         class="btn btn-lg btn-block btn-primary my-2">
                                                                         ${downloadTicket}
+                                                                </button>
+                                                            </form>
+                                                                <form name="filmDetail" method="get" action="detailfilm" target="_blank">
+                                                                <input type="hidden" name="command"
+                                                                       value="downloadTicket">
+                                                                <input type="hidden" name="filmId"
+                                                                       value="${film.id}">
+                                                                <button type="submit"
+                                                                        class="btn btn-lg btn-block btn-primary my-2">
+                                                                        Film Detail
                                                                 </button>
                                                             </form>
                                                         </div>

@@ -1,4 +1,5 @@
 
+
 -- Table structure for table `films`
 --
 CREATE DATABASE cinema_db;

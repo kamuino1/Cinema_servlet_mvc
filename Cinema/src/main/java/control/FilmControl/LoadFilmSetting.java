@@ -1,11 +1,11 @@
-package control.UserControl;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-import dao.UserDAO;
-import entities.User;
+package control.FilmControl;
+
+import dao.FilmDAO;
+import entities.Film;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,14 +13,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author tienp
  */
-@WebServlet(urlPatterns = {"/login"})
-public class LoginControl extends HttpServlet {
+@WebServlet(name = "LoadFilmSetting", urlPatterns = {"/loadFilmSetting"})
+public class LoadFilmSetting extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,32 +34,16 @@ public class LoginControl extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("login");
-        String password = request.getParameter("password");
-        System.out.println(email);
-        System.out.println(password);
-        if (email == null || email.trim().isEmpty()) {
-            request.setAttribute("email_empty", true);
-            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-        } else {
-            UserDAO dao = new UserDAO();
-            User u = dao.login(email.trim(), password);
-            System.out.println(u);
-            if (u == null) {
-                request.setAttribute("email_invalid", true);
-                request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("acc", u);
-                session.setAttribute("userRole", u.getUserRole());
-                if (request.getParameter("rememberMe") != null) {
-                    session.setMaxInactiveInterval(600000);
-                }
-                response.sendRedirect("main");
-            }
-        }
+        FilmDAO filmdao = new FilmDAO();
+        List<Film> films = filmdao.getAllFilm();
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("filmList", films);
+        
+        request.getRequestDispatcher("/jsp/adminPages/filmsSetting.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,7 +58,11 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(LoadFilmSetting.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -86,7 +76,11 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(LoadFilmSetting.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

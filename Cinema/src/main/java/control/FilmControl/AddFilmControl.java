@@ -117,7 +117,7 @@ public class AddFilmControl extends HttpServlet {
             response.sendRedirect("main");
         } catch (Exception e) {
             e.printStackTrace();
-            request.getRequestDispatcher("addFilm.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/adminPages/addFilm.jsp").forward(request, response);
             return;
         }
 

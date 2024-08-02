@@ -36,10 +36,10 @@ public class DeleteSessionControl extends HttpServlet {
         int sessionId = Integer.parseInt(request.getParameter("sessionId"));
         int roomId = Integer.parseInt(request.getParameter("roomId"));
         SessionDAO sessionDao = new SessionDAO();
-        SeatDAO seatDao = new SeatDAO();
+//        SeatDAO seatDao = new SeatDAO();
         
         sessionDao.deleteSession(sessionId);
-        seatDao.deleteFreeSeatsBySession(sessionId);
+//        seatDao.deleteFreeSeatsBySession(sessionId);
         HttpSession session = request.getSession();
         session.setAttribute("check_session", "Xóa session thành công");
         response.sendRedirect("/loadSessionSetting");

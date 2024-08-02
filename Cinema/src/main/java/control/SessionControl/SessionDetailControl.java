@@ -43,6 +43,7 @@ public class SessionDetailControl extends HttpServlet {
         SessionDAO sessionDao = new SessionDAO();
         SeatDAO seatDao = new SeatDAO();
         RoomDAO roomDao = new RoomDAO();
+        
         int sessionid = Integer.parseInt(request.getParameter("sessionId"));
         Session s = sessionDao.getSessionById(sessionid);
         s.getFilm().setGenreList(filmDao.getGenresFilm(s.getFilm().getId()));

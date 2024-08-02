@@ -22,6 +22,6 @@
     <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center">${success}</h1>
     <div class="inline-block align-middle">
         <h2 class="font-weight-normal lead">${text}</h2>
-        <a href="main" class="btn btn-link">${backMain}</a>
+        <a href="${pageContext.request.contextPath}/main" class="btn btn-link">${backMain}</a>
     </div>
 </div>

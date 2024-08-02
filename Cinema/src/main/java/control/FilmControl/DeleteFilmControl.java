@@ -5,6 +5,7 @@
 package control.FilmControl;
 
 import dao.FilmDAO;
+import dao.SessionDAO;
 import entities.Film;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -38,14 +39,12 @@ public class DeleteFilmControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         FilmDAO dao = new FilmDAO();
+        
         int filmId = Integer.parseInt(request.getParameter("filmId"));
         dao.deleteFilm(filmId);
-        List<Film> list = dao.getAllFilm();
         
-        HttpSession session = request.getSession();
-        session.setAttribute("filmList", list);
         
-        response.sendRedirect("/jsp/adminPages/filmsSetting.jsp");
+        response.sendRedirect("loadFilmSetting");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -26,11 +26,11 @@
 <c:url value="/login" var="login_url"/>
 <c:url value="/signup" var="register_url"/>
 <c:url value="/logout" var="logout_url"/>
-<c:url value="/main?command=profilePage" var="profile_url"/>
-<c:url value="/loadAddFilm" var="addFilm_url"/>
-<c:url value="/filmSetting" var="filmSetting_url"/>
+<c:url value="/loadUserProfile" var="profile_url"/>
+<c:url value="/jsp/adminPages/addFilm.jsp" var="addFilm_url"/>
+<c:url value="/loadFilmSetting" var="filmSetting_url"/>
 <c:url value="/loadAddSession" var="addSession_url"/>
-<c:url value="/sessionSetting" var="sessionSetting_url"/>
+<c:url value="/loadSessionSetting" var="sessionSetting_url"/>
 
 
 <nav class="container-fluid site-header sticky-top">

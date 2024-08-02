@@ -17,6 +17,7 @@
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
     <fmt:message key="session.ticketPrice" var="ticketPrice"/>
     <fmt:message key="session.buyTicket" var="buyTicket"/>
+    <fmt:message key="session.sessionInfor" var="sessionInfor"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
@@ -239,7 +240,7 @@
                                                                            value="${session.id}">
                                                                     <button type="submit"
                                                                             class="btn btn-lg btn-block btn-primary">
-                                                                            ${buyTicket}
+                                                                            ${sessionInfor}
                                                                     </button>
                                                                 </form>
                                                             </c:otherwise>
