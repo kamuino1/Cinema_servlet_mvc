@@ -26,7 +26,7 @@ public class SessionDAO extends DAO {
     private static final String ALL_SESSION = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id ";
     private static final String ADD_SESSION = "INSERT INTO sessions (film_id, date, time, ticket_price, free_seats, room_id) VALUES (?, ?, ?, ?, 30, ?)";
     private static final String DEL_SESSION = "DELETE FROM sessions WHERE session_id = ?";
-    private static final String UPDATE_SESSION = "UPDATE dbo.sessions SET film_id = ?, date = ?, time = ?, ticket_price = ?, free_seats = ? ";
+    private static final String UPDATE_SESSION = "UPDATE dbo.sessions SET film_id = ?, date = ?, time = ?, ticket_price = ?, free_seats = ?, room_id = ?  ";
 
     private static final String ID_SESSION = " WHERE s.film_id = ? AND s.room_id = ? AND s.date = ? AND s.time = ?";
     private static final String CHECK_SESSION = "WHERE f.film_id = ? AND s.room_id = ? AND s.date = ? AND (s.time < ? AND (s.time + f.duration) > ?)";
@@ -223,7 +223,8 @@ public class SessionDAO extends DAO {
             ps.setObject(3, session.getTime());
             ps.setBigDecimal(4, session.getTicketPrice());
             ps.setInt(5, session.getSeatsAmount());
-            ps.setInt(6, session.getId());
+            ps.setInt(6, session.getRoom().getId());
+            ps.setInt(7, session.getId());
             ps.executeUpdate();
 
         } catch (Exception e) {

@@ -43,6 +43,7 @@ public class SaveTicketControl extends HttpServlet {
         HttpSession session = request.getSession();
         
         List<Ticket> tickets = (List<Ticket>) session.getAttribute("ticketList");
+        System.out.println("check user: ");
         for(Ticket t : tickets){
             tdao.addTicket(t);
             Session s = t.getSession();

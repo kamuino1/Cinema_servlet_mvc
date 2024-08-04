@@ -59,7 +59,7 @@
                                     ${time}: ${session.date} ${timePrefix} ${session.time}
                                 </li>
                                 <li class="card-text">
-                                    Phòng: ${room.roomName}
+                                    Room ${room.roomName}
                                 </li>
                             </ul>
                             <h4 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h4>

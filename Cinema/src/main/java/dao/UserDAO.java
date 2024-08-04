@@ -24,7 +24,6 @@ public class UserDAO extends DAO {
             ps.setString(2, pass);
             rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println("check1");
                 return new User(rs.getInt(1),
                         rs.getString(3),
                         rs.getString(4),

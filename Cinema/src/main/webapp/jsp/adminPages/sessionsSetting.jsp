@@ -63,6 +63,9 @@
                                                                     <mtg:filmGenresList film="${film}"/>
                                                                 </li>
                                                                 <li class="card-text">
+                                                                    Room: ${room.roomName}
+                                                                </li>
+                                                                <li class="card-text">
                                                                     ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
                                                                 </li>
                                                                 <li class="card-text">
@@ -78,13 +81,21 @@
                                                         <div class="col-md-3">
                                                             <div class="vertical-buttons-4">
                                                                 <form name="sessionInfor" method="get" action="/sessionInfor">
-                                                                    <input type="hidden" name="command"
-                                                                           value="sessionInfoPage">
+                                                                    
                                                                     <input type="hidden" name="sessionId"
                                                                            value="${session.id}">
                                                                     <button type="submit"
                                                                             class="btn btn-lg btn-block btn-primary my-2">
                                                                         ${sessionInfo}
+                                                                    </button>
+                                                                </form>
+                                                                <form name="sessionUpdate" method="get" action="/loadUpdateSession">
+                                                                    
+                                                                    <input type="hidden" name="sessionId"
+                                                                           value="${session.id}">
+                                                                    <button type="submit"
+                                                                            class="btn btn-lg btn-block btn-primary my-2">
+                                                                        Update Session
                                                                     </button>
                                                                 </form>
                                                                 <button type="button"

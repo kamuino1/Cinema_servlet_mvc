@@ -61,14 +61,14 @@
 
                                             <div class="col-md-3">
                                                 <div class="vertical-buttons-4">
-                                                    <form name="film" method="get" action="main">
+                                                    <form name="film" method="get" action="loadUpdateFilm">
                                                         <input type="hidden" name="command"
                                                                value="filmPage">
                                                         <input type="hidden" name="filmId"
                                                                value="${film.id}">
                                                         <button type="submit"
                                                                 class="btn btn-lg btn-block btn-primary my-2">
-                                                                ${goToFilmPage}
+                                                                Update Film
                                                         </button>
                                                     </form>
                                                     <button type="button"

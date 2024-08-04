@@ -52,7 +52,7 @@
                             <h3>${ticketTitle}: </h3>
                             <h6>${dateTitle}: ${session.date}</h6>
                             <h6>${time}: ${session.time}</h6>
-                            <h6>Phòng: ${room.roomName}</h6>
+                            <h6>Room: ${room.roomName}</h6>
                             <h6>${seatRowTitle}: ${seat.rowNumber}</h6>
                             <h6>${seatPlaceTitle}: ${seat.placeNumber}</h6>
                             <h6>${filmTitle}: ${film.name}</h6>

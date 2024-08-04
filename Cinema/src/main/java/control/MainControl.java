@@ -39,7 +39,7 @@ public class MainControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         FilmDAO dao = new FilmDAO();
 //        SessionDAO sdao = new SessionDAO();
-//        RoomDAO rdao = new RoomDAO();
+        RoomDAO rdao = new RoomDAO();
         List<Film> list = dao.getAllFilm();
         for(Film film : list){
             List<Genre> listGenreFilm = dao.getGenresFilm(film.getId());
@@ -59,14 +59,14 @@ public class MainControl extends HttpServlet {
 //            s.setFilm(f);
 //            s.setRoom(rdao.getRoomById(roomId));
 //        }
-//        List<Room> roomList = rdao.getAllRoom();
+        List<Room> roomList = rdao.getAllRoom();
         
         HttpSession session = request.getSession();
         session.setAttribute("genreList", listGenre);
         session.setAttribute("totalPages", cnt);
         session.setAttribute("filmList", list);
 //        session.setAttribute("sessionList", sessionList);
-//        session.setAttribute("roomList", roomList);
+        session.setAttribute("roomList", roomList);
         
         request.setAttribute("prev", "Previous");
         request.setAttribute("next", "Next");

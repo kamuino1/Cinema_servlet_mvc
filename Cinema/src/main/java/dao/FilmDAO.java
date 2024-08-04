@@ -119,7 +119,6 @@ public class FilmDAO extends DAO {
         String query2 = "INSERT INTO films_genres VALUES(?,?)";
         try {
             conn = new DBContext().getConnection();
-
             ps = conn.prepareStatement(query1);
             ps.setString(1, film.getName());
             ps.setString(2, film.getDescription());
@@ -128,15 +127,37 @@ public class FilmDAO extends DAO {
             ps.executeUpdate();
             ps.close();
 
-            
             Film f = getFilmByName(film);
-            for (Genre genre : film.getGenreList()) {
-                Connection conn1 = new DBContext().getConnection();
-                PreparedStatement ps1 = conn1.prepareStatement(query2);
-                ps1.setInt(1, f.getId());
-                ps1.setInt(2, genre.getId());
-                ps1.executeUpdate();
+            for (Genre genre : f.getGenreList()) {
+                addGenresFilm(genre, f.getId());
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addGenresFilm(Genre genre, int film_id) {
+        String query2 = "INSERT INTO films_genres (film_id, genre_id) VALUES(?,?)";
+        try {
+            Connection conn1 = new DBContext().getConnection();
+            PreparedStatement ps1 = conn1.prepareStatement(query2);
+            ps1.setInt(1, film_id);
+            ps1.setInt(2, genre.getId());
+            ps1.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeGenresFilm(int film_id) {
+        String query = "DELETE FROM dbo.films_genres WHERE film_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, film_id);
+            ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,6 +185,7 @@ public class FilmDAO extends DAO {
         }
         return null;
     }
+
     public void deleteFilm(int filmId) {
         String query1 = "  DELETE FROM films WHERE film_id = ?";
         try {
@@ -175,7 +197,7 @@ public class FilmDAO extends DAO {
             e.printStackTrace();
         }
     }
-    
+
     public Film getFilmById(int filmid) throws Exception {
         String query = "SELECT * FROM films WHERE film_id = ?";
         try {
@@ -195,4 +217,36 @@ public class FilmDAO extends DAO {
         }
         return null;
     }
+
+    public void updateFilm(Film film) {
+        String query = "UPDATE dbo.films\n"
+                + "SET \n"
+                + "    film_name = ?,\n"
+                + "    [description] = ?,\n"
+                + "    poster_url = ?,\n"
+                + "    duration = ?\n"
+                + "WHERE\n"
+                + "    film_id = ?;";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, film.getName());
+            ps.setString(2, film.getDescription());
+            ps.setString(3, film.getPosterUrl());
+            ps.setInt(4, (int) film.getDuration().toMinutes());
+            ps.setInt(5, film.getId());
+
+            System.out.println("Updating film with ID: " + film.getId());
+            System.out.println("Film name: " + film.getName());
+            System.out.println("Description: " + film.getDescription());
+            System.out.println("Poster URL: " + film.getPosterUrl());
+            System.out.println("Duration in minutes: " + film.getDuration().toMinutes());
+
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
