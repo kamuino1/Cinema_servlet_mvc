@@ -6,9 +6,6 @@
 <fmt:bundle basename="i18n" prefix="menu.">
     <fmt:message key="title" var="title"/>
     <fmt:message key="main" var="main"/>
-    <fmt:message key="languageSelector" var="languageSelector"/>
-    <fmt:message key="languageENG" var="langENG"/>
-    <fmt:message key="languageUA" var="langUA"/>
     <fmt:message key="guest.login" var="login"/>
     <fmt:message key="guest.register" var="register"/>
     <fmt:message key="schedule" var="schedule"/>
@@ -43,7 +40,7 @@
 
         <c:if test="${userRole == null || userRole == 'GUEST' || userRole.equals('')}">
             <a class="py-2 d-none d-md-inline-block" href="${login_url}">
-                    ${login}
+                ${login}
             </a>
 
             <a class="py-2 d-none d-md-inline-block" href="${register_url}">${register}</a>
@@ -51,10 +48,10 @@
 
         <c:if test="${userRole == 'USER'}">
             <a class="py-2 d-none d-md-inline-block" href="${logout_url}">
-                    ${logout}
+                ${logout}
             </a>
             <a class="py-2 d-none d-md-inline-block" href="${profile_url}">
-                    ${myProfile}
+                ${myProfile}
             </a>
         </c:if>
 
@@ -77,22 +74,19 @@
             </div>
 
             <a class="py-2 d-none d-md-inline-block" href="${logout_url}">
-                    ${logout}
+                ${logout}
             </a>
 
         </c:if>
-
-        <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
-            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                ${languageSelector}
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
-                <ul style="list-style-type: none;" class="px-3">
-                    <li class="menu-li py-1"><a href="?lang=en">${langENG}</a></li>
-                    <li class="menu-li py-1"><a href="?lang=uk">${langUA}</a></li>
-                </ul>
+        <form action="search" method="post" class="form-inline my-2 my-lg-0">
+            <div class="input-group input-group-sm">
+                <input oninput="searchByName(this)" value="${txtS}" name="txt" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary btn-number">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </nav>

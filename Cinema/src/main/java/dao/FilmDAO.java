@@ -163,7 +163,30 @@ public class FilmDAO extends DAO {
             e.printStackTrace();
         }
     }
-
+    
+    public List<Film> searchFilmByName(String word) throws Exception {
+        String query = "SELECT * FROM films WHERE film_name LIKE ?";
+        List<Film> list = new ArrayList<>();
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + word + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int film_id = rs.getInt(1);
+                list.add(new Film(film_id,
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        Duration.ofMinutes(rs.getInt(5)),
+                        getGenresFilm(film_id)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
     public Film getFilmByName(Film film) throws Exception {
         String query = "SELECT * FROM films WHERE film_name = ? AND poster_url = ?";
         try {
