@@ -187,7 +187,7 @@ CREATE TABLE dbo.sessions (
     film_id INT NOT NULL,
     date DATE NOT NULL,
     time TIME NOT NULL,
-    ticket_price DECIMAL(10,2) NOT NULL,
+    ticket_price DECIMAL(10,3) NOT NULL,
     free_seats INT NOT NULL,
     FOREIGN KEY (film_id) REFERENCES dbo.films(film_id) ON DELETE CASCADE
 );
@@ -335,3 +335,6 @@ INSERT INTO dbo.room (room_name) VALUES
 (N'104'),
 (N'105'),
 (N'106');
+
+
+ALTER DATABASE cinema_db SET MULTI_USER WITH ROLLBACK IMMEDIATE;

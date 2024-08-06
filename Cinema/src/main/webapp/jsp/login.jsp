@@ -48,7 +48,7 @@
                                             <p class="form-error">${emailLength}</p>
                                         </c:if>
                                         <c:if test="${requestScope.email_empty}">
-                                            <p>${emailEmpty}</p>
+                                            <p class="form-error">${emailEmpty}</p>
                                         </c:if>
                                         <c:if test="${requestScope.email_invalid}">
                                             <p class="form-error">${emailInvalid}</p>
