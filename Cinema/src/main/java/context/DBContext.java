@@ -11,7 +11,7 @@ public class DBContext {
     /*USE BELOW METHOD FOR YOUR DATABASE CONNECTION FOR BOTH SINGLE AND MULTILPE SQL SERVER INSTANCE(s)*/
     /*DO NOT EDIT THE BELOW METHOD, YOU MUST USE ONLY THIS ONE FOR YOUR DATABASE CONNECTION*/
      public Connection getConnection()throws Exception {
-        String url = "jdbc:sqlserver://"+serverName+":"+portNumber + "\\" + instance +";databaseName="+dbName + "integratedSecurity=false;encrypt=true;trustServerCertificate=true";
+        String url = "jdbc:sqlserver://"+serverName+":"+portNumber + "\\" + instance +";databaseName="+dbName + "integratedSecurity=false;encrypt=true;trustServerCertificate=true;sendTimeAsDateTime=false";
         if(instance == null || instance.trim().isEmpty())
             url = "jdbc:sqlserver://"+serverName+":"+portNumber +";databaseName="+dbName;
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

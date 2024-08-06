@@ -21,9 +21,7 @@ public class TicketDAO extends DAO {
 
     private static final String INSERT = "INSERT INTO dbo.tickets (session_id, user_id, seat_id, ticket_price) VALUES (?, ?, ?, ?);";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM tickets WHERE user_id=?";
-    private static final String SELECT_BY_ID = "SELECT * FROM tickets t WHERE ticket_id=?";
-    private static final String COUNT_TOTAL_ROWS = "SELECT COUNT(*) FROM tickets WHERE user_id=?";
-    private static final String LIMIT = " LIMIT ?, ?";
+    
 
     public void addTicket(Ticket ticket) {
         String query = INSERT;

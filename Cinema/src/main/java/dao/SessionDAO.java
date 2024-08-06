@@ -28,10 +28,7 @@ public class SessionDAO extends DAO {
     private static final String DEL_SESSION = "DELETE FROM sessions WHERE session_id = ?";
     private static final String UPDATE_SESSION = "UPDATE dbo.sessions SET film_id = ?, date = ?, time = ?, ticket_price = ?, free_seats = ?, room_id = ?  ";
 
-    private static final String ID_SESSION = " WHERE s.film_id = ? AND s.room_id = ? AND s.date = ? AND s.time = ?";
-    private static final String CHECK_SESSION = "WHERE f.film_id = ? AND s.room_id = ? AND s.date = ? AND (s.time < ? AND (s.time + f.duration) > ?)";
     private static final String WHERE_SESSION_ID = " WHERE session_id = ?";
-    private static final String WHERE_DEFAULT = " WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?)";
     private static final String AND_FREE_SEATS = " WHERE s.free_seats>0";
     private static final String ORDER_BY_DATETIME_ASC = " ORDER BY s.date, s.time";
     private static final String ORDER_BY_DATETIME_DESC = " ORDER BY s.date DESC, s.time DESC";

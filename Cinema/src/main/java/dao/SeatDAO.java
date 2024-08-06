@@ -20,7 +20,6 @@ import java.util.List;
 public class SeatDAO extends DAO {
 
     private static final String SELECT_ALL = "SELECT * FROM seats";
-    private static final String SELECT_BY_ID = "SELECT * FROM seats WHERE seat_id=?";
     private static final String DELETE_FREE_SEATS = "DELETE FROM free_seats ";
     private static final String SEAT_BY_ID = "SELECT * FROM seats WHERE seat_id = ?";
 
@@ -30,9 +29,7 @@ public class SeatDAO extends DAO {
     private static final String WHERE_ROOMID = " WHERE room_id = ?;";
     private static final String INSERT_FREE_SEAT = "  INSERT INTO free_seats (session_id, seat_id)  VALUES (?, ?); ";
     private static final String SELECT_FREE_SEATS_BY_SESSION_ID = "SELECT * FROM free_seats JOIN seats s on free_seats.seat_id = s.seat_id WHERE session_id=?";
-    private static final String SELECT_FREE_SEAT_BY_ID_AND_SESSION = "SELECT * FROM free_seats WHERE seat_id=? AND session_id=?";
-    private static final String REMOVE_FREE_SEAT = "DELETE FROM free_seats WHERE seat_id=? AND session_id=?";
-
+    
     public List<Seat> getAllSeats() {
         String query = SELECT_ALL;
         List<Seat> seatList = new ArrayList<>();
