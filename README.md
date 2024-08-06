@@ -1,4 +1,4 @@
-# Cinema_servlet_mvc
+![image](https://github.com/user-attachments/assets/4853cc70-eae8-49ec-a3dc-f507f59194a4)# Cinema_servlet_mvc
 
 # Cinema_servlet_mvc
 
@@ -22,7 +22,10 @@ Công nghệ sử dụng:
   Link github: https://github.com/kamuino1/Cinema_servlet_mvc.git
 
 Biểu đồ thực thể:
-![Alt text](image.png)
+![image](https://github.com/user-attachments/assets/86800c1e-e6c3-42fd-bc50-c392a453b8e4)
+
 
 Database:
-![Alt text](image-1.png)
+![Uploading image![image](https://github.com/user-attachments/assets/fa3173f7-ecc3-46c6-8f74-d3c9cf80dc46)
+.png…]()
+
