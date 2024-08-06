@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/4853cc70-eae8-49ec-a3dc-f507f59194a4)# Cinema_servlet_mvc
+# Cinema_servlet_mvc
 
 # Cinema_servlet_mvc
 
@@ -26,6 +26,5 @@ Biểu đồ thực thể:
 
 
 Database:
-![Uploading image![image](https://github.com/user-attachments/assets/fa3173f7-ecc3-46c6-8f74-d3c9cf80dc46)
-.png…]()
+![image](https://github.com/user-attachments/assets/4853cc70-eae8-49ec-a3dc-f507f59194a4)
 
