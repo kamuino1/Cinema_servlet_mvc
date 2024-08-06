@@ -37,12 +37,43 @@ public class LoadFilmSetting extends HttpServlet {
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         FilmDAO filmdao = new FilmDAO();
-        List<Film> films = filmdao.getAllFilm();
+        List<Film> list = filmdao.getAllFilm();
+        
+        int PAGE_SIZE = 6;
+        int currentPage = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1; // Nếu tham số không hợp lệ, mặc định về trang 1
+            }
+        }
+        int totalFilms = list.size();
+        int totalPages = totalFilms / PAGE_SIZE;
+        if (totalFilms % 6 != 0) {
+            totalPages++;
+        }
+        int start = (currentPage - 1) * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, totalFilms);
+        List<Film> filmsForPage = list.subList(start, end);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
         
         HttpSession session = request.getSession();
-        session.setAttribute("filmList", films);
-        
-        request.getRequestDispatcher("/jsp/adminPages/filmsSetting.jsp").forward(request, response);
+        session.setAttribute("filmList", filmsForPage);
+        String check_film = (String) session.getAttribute("check_film");
+        if(check_film == null){
+            request.getRequestDispatcher("/jsp/adminPages/filmsSetting.jsp").forward(request, response);
+        }else if(check_film.equals("delete")){
+            session.removeAttribute("check_film");
+            request.setAttribute("film_mess", "Delete film successfully");
+            request.getRequestDispatcher("/jsp/adminPages/filmsSetting.jsp").forward(request, response);
+        }else if(check_film.equals("update")){
+            session.removeAttribute("check_film");
+            request.setAttribute("film_mess", "Update film successfully");
+            request.getRequestDispatcher("/jsp/adminPages/filmsSetting.jsp").forward(request, response);
+        }
         
     }
 

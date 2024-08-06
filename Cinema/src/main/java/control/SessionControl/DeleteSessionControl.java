@@ -41,7 +41,7 @@ public class DeleteSessionControl extends HttpServlet {
         sessionDao.deleteSession(sessionId);
 //        seatDao.deleteFreeSeatsBySession(sessionId);
         HttpSession session = request.getSession();
-        session.setAttribute("check_session", "Xóa session thành công");
+        session.setAttribute("check_session", "delete");
         response.sendRedirect("/loadSessionSetting");
     }
 

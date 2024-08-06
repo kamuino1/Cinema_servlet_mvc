@@ -125,10 +125,9 @@ public class FilmDAO extends DAO {
             ps.setString(3, film.getPosterUrl());
             ps.setLong(4, film.getDurationInMinutes());
             ps.executeUpdate();
-            ps.close();
 
             Film f = getFilmByName(film);
-            for (Genre genre : f.getGenreList()) {
+            for (Genre genre : film.getGenreList()) {
                 addGenresFilm(genre, f.getId());
             }
 

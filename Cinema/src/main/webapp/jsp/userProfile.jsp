@@ -81,7 +81,7 @@
                                                                        value="${ticket.id}">
                                                                 <button type="submit"
                                                                         class="btn btn-lg btn-block btn-outline-secondary my-2">
-                                                                        ${sendMail}
+                                                                    ${sendMail}
                                                                 </button>
                                                             </form>
                                                             <form name="ticketPDF" method="get" action="main" target="_blank">
@@ -91,17 +91,17 @@
                                                                        value="${ticket.id}">
                                                                 <button type="submit"
                                                                         class="btn btn-lg btn-block btn-primary my-2">
-                                                                        ${downloadTicket}
+                                                                    ${downloadTicket}
                                                                 </button>
                                                             </form>
-                                                                <form name="filmDetail" method="get" action="detailfilm" target="_blank">
+                                                            <form name="filmDetail" method="get" action="detailfilm" target="_blank">
                                                                 <input type="hidden" name="command"
                                                                        value="downloadTicket">
                                                                 <input type="hidden" name="filmId"
                                                                        value="${film.id}">
                                                                 <button type="submit"
                                                                         class="btn btn-lg btn-block btn-primary my-2">
-                                                                        Film Detail
+                                                                    Film Detail
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -120,9 +120,7 @@
 
                             </div>
                         </div>
-
-                        <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
-                                        prev="${prev}" next="${next}"/>
+                        <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}" currentPage="${requestScope.currentPage}" prev="${prev}" next="${next}"/>
 
                     </div>
                 </div>

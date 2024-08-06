@@ -25,89 +25,89 @@
             <h1 class="">
                 ${pageTitle}
             </h1>
+            <p>${requestScope.film_mess}</p>
             <div class="film-posts py-4">
                 <div class="row">
                     <table>
                         <thead>
                         </thead>
                         <tbody>
-                        <jsp:useBean id="filmList" scope="session" type="java.util.List"/>
-                        <c:forEach var="film" items="${filmList}" varStatus="counter">
-                            <tr>
-                                <td>
-                                    <div class="p-4 film-post card w-100">
-                                        <div class="row card-body">
-                                            <div class="col-md-2">
-                                                <img class="poster-img card-img" src="${film.posterUrl}">
-                                            </div>
-                                            <div class="col-md-7">
-                                                <h2 class="card-title">${film.name}</h2>
-                                                <ul class="list-unstyled mt-3 mb-4">
-                                                    <li class="card-text">${genres}:
-                                                        <mtg:filmGenresList film="${film}"/>
-                                                    </li>
-                                                    <li class="card-text">
+                            <c:forEach var="film" items="${filmList}" varStatus="counter">
+                                <tr>
+                                    <td>
+                                        <div class="p-4 film-post card w-100">
+                                            <div class="row card-body">
+                                                <div class="col-md-2">
+                                                    <img class="poster-img card-img" src="${film.posterUrl}">
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <h2 class="card-title">${film.name}</h2>
+                                                    <ul class="list-unstyled mt-3 mb-4">
+                                                        <li class="card-text">${genres}:
+                                                            <mtg:filmGenresList film="${film}"/>
+                                                        </li>
+                                                        <li class="card-text">
                                                             ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
 
-                                            <div class="col-md-3">
-                                                <div class="vertical-buttons-4">
-                                                    <form name="film" method="get" action="loadUpdateFilm">
-                                                        <input type="hidden" name="command"
-                                                               value="filmPage">
-                                                        <input type="hidden" name="filmId"
-                                                               value="${film.id}">
-                                                        <button type="submit"
-                                                                class="btn btn-lg btn-block btn-primary my-2">
+                                                <div class="col-md-3">
+                                                    <div class="vertical-buttons-4">
+                                                        <form name="film" method="get" action="loadUpdateFilm">
+                                                            <input type="hidden" name="command"
+                                                                   value="filmPage">
+                                                            <input type="hidden" name="filmId"
+                                                                   value="${film.id}">
+                                                            <button type="submit"
+                                                                    class="btn btn-lg btn-block btn-primary my-2">
                                                                 Update Film
-                                                        </button>
-                                                    </form>
-                                                    <button type="button"
-                                                            class="btn btn-lg btn-block btn-danger"
-                                                            data-toggle="modal" data-target="#modal${film.id}">
+                                                            </button>
+                                                        </form>
+                                                        <button type="button"
+                                                                class="btn btn-lg btn-block btn-danger"
+                                                                data-toggle="modal" data-target="#modal${film.id}">
                                                             ${delete}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="modal${film.id}" tabindex="-1"
-                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title"
-                                                        id="exampleModalLabel">${filmDeleting}</h5>
-                                                </div>
-                                                <div class="modal-body">${sureWantDelete}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <form name="film" method="post"
-                                                          action="${pageContext.request.contextPath}/delete">
-                                                        <input type="hidden" name="command"
-                                                               value="deleteFilm">
-                                                        <input type="hidden" name="filmId"
-                                                               value="${film.id}">
-                                                        <button type="submit"
-                                                                class="btn btn-primary">${delete}
                                                         </button>
-                                                    </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </c:forEach>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal${film.id}" tabindex="-1"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="exampleModalLabel">${filmDeleting}</h5>
+                                                    </div>
+                                                    <div class="modal-body">${sureWantDelete}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form name="film" method="post"
+                                                              action="${pageContext.request.contextPath}/delete">
+                                                            <input type="hidden" name="command"
+                                                                   value="deleteFilm">
+                                                            <input type="hidden" name="filmId"
+                                                                   value="${film.id}">
+                                                            <button type="submit"
+                                                                    class="btn btn-primary">${delete}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
 
-                    <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
-                                    prev="${prev}" next="${next}"/>
+                    <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}" currentPage="${requestScope.currentPage}" prev="${prev}" next="${next}"/>
+
 
                 </div>
             </div>

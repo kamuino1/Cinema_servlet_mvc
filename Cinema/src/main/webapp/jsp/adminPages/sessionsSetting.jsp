@@ -136,8 +136,7 @@
                                 </tbody>
                             </table>
 
-                            <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
-                                            prev="${prev}" next="${next}"/>
+                            <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}" currentPage="${requestScope.currentPage}" prev="${prev}" next="${next}"/>
 
                         </div>
                     </div>

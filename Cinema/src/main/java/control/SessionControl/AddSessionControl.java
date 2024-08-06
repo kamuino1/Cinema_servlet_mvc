@@ -62,7 +62,6 @@ public class AddSessionControl extends HttpServlet {
         Session session = new Session(tiketPrice, sdate, stime, rdao.getRoomById(roomid));
         session.setFilm(fdao.getFilmById(filmid));
 
-        request.setAttribute("cond", true);
         if (sdao.checkSession(session)) {
             sdao.addSession(session);
             int sessionid = sdao.getIdSession(session.getFilm().getId(), session.getRoom().getId(), sdate, stime);
@@ -71,10 +70,10 @@ public class AddSessionControl extends HttpServlet {
             for(Seat s : seatList){
                 seatdao.addFreeSeats(sessionid, s.getId());
             }
-            request.setAttribute("mess", "Đã thêm Session thành công");
+            request.setAttribute("mess", "Add session successfully");
         } else {
 
-            request.setAttribute("mess", "Session bị trùng thời gian");
+            request.setAttribute("mess", "Session time overlap");
             
         }
         request.getRequestDispatcher("loadAddSession").forward(request, response);

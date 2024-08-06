@@ -41,6 +41,7 @@
     <div class="row">
         <div class="col-md-12 blog-main">
             <h1 class="">${pageTitle}</h1>
+            <p>${requestScope.mess}</p>
             <div class="panel-group" id="accordion">
                 <div class="panel panel-primary">
                     <div class="panel-collapse">
@@ -65,7 +66,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="room">Phòng</label>
+                                        <label for="room">Room</label>
                                         <select name="roomId" id="room" class="form-control" required>
                                             <c:forEach var="room" items="${requestScope.roomList}">
                                                 <option value="${room.id}">${room.roomName}</option>

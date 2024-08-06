@@ -8,25 +8,10 @@ import java.time.LocalTime;
  * Film session
  */
 public class Session extends BaseEntity {
-    /**
-     * Ticket price
-     */
     private BigDecimal ticketPrice;
-    /**
-     * Session date
-     */
     private LocalDate date;
-    /**
-     * Session time
-     */
     private LocalTime time;
-    /**
-     * Session's film
-     */
     private Film film;
-    /**
-     * General seat amount
-     */
     private int seatsAmount;
     private Room room;
     

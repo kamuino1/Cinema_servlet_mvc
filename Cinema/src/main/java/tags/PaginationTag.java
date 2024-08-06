@@ -8,6 +8,7 @@ import java.io.IOException;
 public class PaginationTag extends SimpleTagSupport {
     private HttpServletRequest request;
     private int totalPages;
+    private int currentPage;
     private String prev;
     private String next;
 
@@ -17,6 +18,10 @@ public class PaginationTag extends SimpleTagSupport {
 
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
     public void setPrev(String prev) {
@@ -29,16 +34,6 @@ public class PaginationTag extends SimpleTagSupport {
 
     @Override
     public void doTag() throws JspException, IOException {
-        int currentPage = 1;
-        String pageParam = request.getParameter("page");
-        if (pageParam != null) {
-            try {
-                currentPage = Integer.parseInt(pageParam);
-            } catch (NumberFormatException e) {
-                currentPage = 1;
-            }
-        }
-
         StringBuilder paginationHtml = new StringBuilder();
         paginationHtml.append("<nav aria-label='Page navigation'>");
         paginationHtml.append("<ul class='pagination'>");

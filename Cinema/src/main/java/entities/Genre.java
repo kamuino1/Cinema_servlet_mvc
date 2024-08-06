@@ -4,9 +4,7 @@ package entities;
  * Film's genre
  */
 public class Genre extends BaseEntity {
-    /**
-     * Genre's name
-     */
+
     private String name;
 
     public Genre(int id, String name) {
@@ -24,12 +22,12 @@ public class Genre extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @Override
     public String toString() {
-        return "Genre{" +
-                "genreId=" + getId() +
-                ", name='" + name + '\'' +
-                '}';
+        return "Genre{"
+                + "genreId=" + getId()
+                + ", name='" + name + '\''
+                + '}';
     }
 }

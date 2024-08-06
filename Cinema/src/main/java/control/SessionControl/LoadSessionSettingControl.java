@@ -55,17 +55,47 @@ public class LoadSessionSettingControl extends HttpServlet {
             s.setFilm(f);
             s.setRoom(rDao.getRoomById(roomId));
         }
-        request.setAttribute("sessionList", sessionList);
+        int PAGE_SIZE = 6;
+        int currentPage = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1; // Nếu tham số không hợp lệ, mặc định về trang 1
+            }
+        }
+        int totals = sessionList.size();
+        int totalPages = totals / PAGE_SIZE;
+        if (totals % 6 != 0) {
+            totalPages++;
+        }
+        int start = (currentPage - 1) * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, totals);
+        List<Session> sessionForPage = sessionList.subList(start, end);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        
         HttpSession session = request.getSession();
-        if (session.getAttribute("check_session") == null) {
+        request.setAttribute("sessionList", sessionForPage);
+        String check_session = (String) session.getAttribute("check_session");
+        if (check_session == null) {
 
             request.getRequestDispatcher("/jsp/adminPages/sessionsSetting.jsp").forward(request, response);
 
-        } else {
-            request.setAttribute("session_mess", "Xóa session thành công");
+        } else if (check_session.equals("delete")){
+            request.setAttribute("session_mess", "Delete session successfully");
             session.removeAttribute("check_session");
             request.getRequestDispatcher("/jsp/adminPages/sessionsSetting.jsp").forward(request, response);
 
+        }else if(check_session.equals("update")){
+            request.setAttribute("session_mess", "Update session successfully");
+            session.removeAttribute("check_session");
+            request.getRequestDispatcher("/jsp/adminPages/sessionsSetting.jsp").forward(request, response);
+        }else if(check_session.equals("nonUpdate")){
+            request.setAttribute("session_mess", "Session time overlapy");
+            session.removeAttribute("check_session");
+            request.getRequestDispatcher("/jsp/adminPages/sessionsSetting.jsp").forward(request, response);
         }
     }
 

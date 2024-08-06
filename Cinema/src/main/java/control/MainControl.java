@@ -1,5 +1,3 @@
-
-
 package control;
 
 import dao.FilmDAO;
@@ -21,7 +19,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 @WebServlet(name = "MainControl", urlPatterns = {"/main"})
 public class MainControl extends HttpServlet {
 
@@ -41,13 +38,11 @@ public class MainControl extends HttpServlet {
 //        SessionDAO sdao = new SessionDAO();
         RoomDAO rdao = new RoomDAO();
         List<Film> list = dao.getAllFilm();
-        for(Film film : list){
+        for (Film film : list) {
             List<Genre> listGenreFilm = dao.getGenresFilm(film.getId());
             film.setGenreList(listGenreFilm);
         }
         List<Genre> listGenre = dao.getAllGenres();
-        int cnt = dao.getTotalPage()/3;
-        if(dao.getTotalPage() % 3 != 0) cnt++;
 //        List<Session> sessionList = sdao.getAllSession("all", "dateTime", "asc");
 //        for (Session s : sessionList) {
 //            Film f = s.getFilm();
@@ -60,17 +55,35 @@ public class MainControl extends HttpServlet {
 //            s.setRoom(rdao.getRoomById(roomId));
 //        }
         List<Room> roomList = rdao.getAllRoom();
-        
+
+        int PAGE_SIZE = 6;
+        int currentPage = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1; // Nếu tham số không hợp lệ, mặc định về trang 1
+            }
+        }
+        int totalFilms = list.size();
+        int totalPages = totalFilms / PAGE_SIZE;
+        if (totalFilms % 6 != 0) {
+            totalPages++;
+        }
+        int start = (currentPage - 1) * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, totalFilms);
+        List<Film> filmsForPage = list.subList(start, end);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("filmListPage", filmsForPage);
+
         HttpSession session = request.getSession();
         session.setAttribute("genreList", listGenre);
-        session.setAttribute("totalPages", cnt);
         session.setAttribute("filmList", list);
 //        session.setAttribute("sessionList", sessionList);
         session.setAttribute("roomList", roomList);
-        
-        request.setAttribute("prev", "Previous");
-        request.setAttribute("next", "Next");
-        
+
         request.getRequestDispatcher("jsp/main.jsp").forward(request, response);
     }
 

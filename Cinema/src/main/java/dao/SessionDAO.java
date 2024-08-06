@@ -154,7 +154,7 @@ public class SessionDAO extends DAO {
             LocalDateTime timeBegin2 = s.getDate().atTime(s.getTime());
             LocalDateTime timeEnd2 = timeBegin2.plus(s.getFilm().getDuration());
             System.out.println(s.getId() + ": BeginTime2:" + timeBegin2 + "EndTime2" + timeEnd2);
-            if (timeBegin1.isBefore(timeEnd2) && timeEnd1.isAfter(timeBegin2)) {
+            if ((timeBegin1.isBefore(timeEnd2) || timeBegin1.isEqual(timeEnd2)) && (timeEnd1.isAfter(timeBegin2) || timeEnd1.isEqual(timeBegin2))) {
                 System.out.println("Checked");
                 return false;
 

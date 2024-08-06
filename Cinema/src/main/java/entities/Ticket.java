@@ -6,21 +6,9 @@ import java.math.BigDecimal;
  * Ticket entity
  */
 public class Ticket extends BaseEntity {
-    /**
-     * Ticket session
-     */
     private Session session;
-    /**
-     * Customer
-     */
     private User user;
-    /**
-     * Chosen seat
-     */
     private Seat seat;
-    /**
-     * Ticket price
-     */
     private BigDecimal ticketPrice;
 
     public Ticket() {

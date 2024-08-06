@@ -102,11 +102,18 @@
 
                                         </c:forEach>
                                     </div>
-                                    <div class="col-md-3 under-filter-block px-3">
-                                        <button type="submit" class="btn btn-lg btn-block btn-primary">
-                                            ${buyTicket}
-                                        </button>
-                                    </div>
+                                    <c:if test="${userRole == 'USER'}">
+                                        <div class="col-md-3 under-filter-block px-3">
+                                            <button type="submit" class="btn btn-lg btn-block btn-primary">
+                                                ${buyTicket}
+                                            </button>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${userRole == null || userRole == 'GUEST'}">
+                                        <p>Login to buy tickets</p>
+                                    </c:if>
+
+
                                 </div>
                             </form>
                         </div>

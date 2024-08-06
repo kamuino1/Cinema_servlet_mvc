@@ -45,18 +45,37 @@ public class LoadUserProfileControl extends HttpServlet {
         SeatDAO seatDao = new SeatDAO();
         HttpSession session = request.getSession();
         User u = (User) session.getAttribute("acc");
-        
+
         List<Ticket> tickets = ticketDao.getAllTicketByUserId(u.getId());
         List<Ticket> ticketList = new ArrayList<>();
-        for(Ticket t : tickets){
+        for (Ticket t : tickets) {
             Session s = sessionDao.getSessionById(t.getSession().getId());
             Seat seat = seatDao.getSeatById(t.getSeat().getId());
-            System.out.println("check session" + s);
-            System.out.println("Check seat:" + seat);
-            ticketList.add(new Ticket(s, u, seat, t.getTicketPrice())) ;
+            ticketList.add(new Ticket(s, u, seat, t.getTicketPrice()));
         }
-        System.out.println(ticketList);
-        request.setAttribute("ticketList", ticketList);
+
+        int PAGE_SIZE = 6;
+        int currentPage = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1; // Nếu tham số không hợp lệ, mặc định về trang 1
+            }
+        }
+        int totals = ticketList.size();
+        int totalPages = totals / PAGE_SIZE;
+        if (totals % 6 != 0) {
+            totalPages++;
+        }
+        int start = (currentPage - 1) * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, totals);
+        List<Ticket> ticketForPage = ticketList.subList(start, end);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("ticketList", ticketForPage);
+        
         request.getRequestDispatcher("/jsp/userProfile.jsp").forward(request, response);
     }
 

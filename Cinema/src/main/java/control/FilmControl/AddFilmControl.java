@@ -48,8 +48,6 @@ public class AddFilmControl extends HttpServlet {
         String filmDurationStr = request.getParameter("filmDuration");
         String[] genreIds = request.getParameterValues("genreIds");
 
-        // Xác thực dữ liệu
-        List<String> errors = new ArrayList<>();
         if (filmName == null || filmName.trim().isEmpty()) {
             request.setAttribute("filmName_empty", true);
         } else if(filmName.length() >= 119){
@@ -57,7 +55,7 @@ public class AddFilmControl extends HttpServlet {
         }
         
         if (filmDescription == null || filmDescription.trim().isEmpty()) {
-            errors.add("Film description is required");
+            request.setAttribute("film_empty", true);
         } else if (filmDescription.length() >= 799){
             request.setAttribute("filmDesc_length", true);
         }
@@ -76,8 +74,6 @@ public class AddFilmControl extends HttpServlet {
             request.setAttribute("genreList_empty", true);
         }
 
-
-        // Chuyển đổi filmDuration sang kiểu Duration
         int filmDuration = 0;
         try {
             filmDuration = Integer.parseInt(filmDurationStr);
@@ -88,37 +84,32 @@ public class AddFilmControl extends HttpServlet {
             request.setAttribute("duration_range", true);
         }
 
-        // Tạo đối tượng Film
         Film film = new Film();
         film.setName(filmName);
         film.setDescription(filmDescription);
         film.setPosterUrl(posterUrl);
         film.setDuration(Duration.ofMinutes(filmDuration));
 
-        // Tạo danh sách các thể loại (Genres)
         List<Genre> genreList1 = new ArrayList<>();
         try {
             for (String genreId : genreIds) {
                 int id = Integer.parseInt(genreId);
                 Genre genre = new Genre();
                 genre.setId(id);
-                genre.setName(dao.getNameGenre(id)); // Lấy tên thể loại từ cơ sở dữ liệu
+                genre.setName(dao.getNameGenre(id)); 
                 genreList1.add(genre);
             }
             film.setGenreList(genreList1);
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
 
-        // Lưu đối tượng Film vào cơ sở dữ liệu
         try {
             dao.addFilm(film);
             response.sendRedirect("main");
         } catch (Exception e) {
             e.printStackTrace();
             request.getRequestDispatcher("/jsp/adminPages/addFilm.jsp").forward(request, response);
-            return;
         }
 
     }

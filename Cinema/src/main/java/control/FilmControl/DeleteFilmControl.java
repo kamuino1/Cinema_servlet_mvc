@@ -5,8 +5,6 @@
 package control.FilmControl;
 
 import dao.FilmDAO;
-import dao.SessionDAO;
-import entities.Film;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,28 +40,13 @@ public class DeleteFilmControl extends HttpServlet {
         int filmId = Integer.parseInt(request.getParameter("filmId"));
         dao.deleteFilm(filmId);
         
-        
-        response.sendRedirect("loadFilmSetting");
+        HttpSession session = request.getSession();
+        session.setAttribute("check_film", "delete");
+        request.getRequestDispatcher("loadFilmSetting").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(DeleteFilmControl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+   
 
     /**
      * Handles the HTTP <code>POST</code> method.

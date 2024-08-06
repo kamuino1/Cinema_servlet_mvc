@@ -16,7 +16,6 @@
     <fmt:message key="pagination.prev" var="prev"/>
 </fmt:bundle>
 
-<c:url value="/main?command=filmPage" var="filmPage_url"/>
 
 <ftg:header pageTitle="${pageTitle}"/>
 <ftg:menu userRole="${sessionScope.userRole}"/>
@@ -42,54 +41,51 @@
                     <thead>
                     </thead>
                     <tbody>
-                    <c:forEach var="film" items="${sessionScope.filmList}" varStatus="counter">
-                        <c:if test="${counter.index % 2 == 0}">
-                            <tr>
-                            <td>
-                            <div class="row">
-                        </c:if>
-                        <div class="col-md-6 p-4 film-post card">
-                            <div class="row card-body">
-                                <div class="col-md-4">
-                                    <img class="poster-img card-img" src="${film.posterUrl}">
-                                </div>
-                                <div class="col-md-8">
-                                    <h2 class="card-title">${film.name}</h2>
-                                    <ul class="list-unstyled mt-3 mb-4">
-                                        <li class="card-text">
-                                                ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
-                                        </li>
-                                        <li class="card-text"> ${genres}:
-                                            <mtg:filmGenresList film="${film}"/>
-                                        </li>
-                                    </ul>
-                                    <form name="film" method="get" action="detailfilm">
-                                        <input type="hidden" name="command"
-                                               value="filmPage">
-                                        <input type="hidden" name="filmId"
-                                               value="${film.id}">
-                                        <button type="submit"
-                                                class="btn btn-lg btn-block btn-primary w-75">
-                                                ${filmPage}
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                        <c:forEach var="film" items="${requestScope.filmListPage}" varStatus="counter">
+                            <c:if test="${counter.index % 2 == 0}">
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                        </c:if>
+                                        <div class="col-md-6 p-4 film-post card">
+                                            <div class="row card-body">
+                                                <div class="col-md-4">
+                                                    <img class="poster-img card-img" src="${film.posterUrl}">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <h2 class="card-title">${film.name}</h2>
+                                                    <ul class="list-unstyled mt-3 mb-4">
+                                                        <li class="card-text">
+                                                            ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
+                                                        </li>
+                                                        <li class="card-text"> ${genres}:
+                                                            <mtg:filmGenresList film="${film}"/>
+                                                        </li>
+                                                    </ul>
+                                                    <form name="film" method="get" action="detailfilm">
+                                                        <input type="hidden" name="command"
+                                                               value="filmPage">
+                                                        <input type="hidden" name="filmId"
+                                                               value="${film.id}">
+                                                        <button type="submit"
+                                                                class="btn btn-lg btn-block btn-primary w-75">
+                                                            ${filmPage}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                        <c:if test="${counter.index %2 != 0 && counter.index != 0}">
-                            </div>
-                            </td>
-                            </tr>
-                        </c:if>
+                                        <c:if test="${counter.index %2 != 0 && counter.index != 0}">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:if>
 
-                    </c:forEach>
+                        </c:forEach>
                     </tbody>
                 </table>
-
-                <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}" prev="${prev}"
-                                next="${next}"/>
-
+                <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}" currentPage="${requestScope.currentPage}" prev="${prev}" next="${next}"/>
             </div>
         </div>
     </div>

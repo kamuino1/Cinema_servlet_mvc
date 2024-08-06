@@ -60,14 +60,35 @@ public class ScheduleControl extends HttpServlet {
             Film f = s.getFilm();
             Room room = s.getRoom();
             int roomId = room.getId();
-            
+
             f.setGenreList(fDao.getGenresFilm(f.getId()));
-            
+
             s.setFilm(f);
             s.setRoom(rDao.getRoomById(roomId));
         }
+        
+        int PAGE_SIZE = 6;
+        int currentPage = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1; // Nếu tham số không hợp lệ, mặc định về trang 1
+            }
+        }
+        int totals = sessionList.size();
+        int totalPages = totals / PAGE_SIZE;
+        if (totals % PAGE_SIZE != 0) {
+            totalPages++;
+        }
+        int start = (currentPage - 1) * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, totals);
+        List<Session> sessionsForPage = sessionList.subList(start, end);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
 
-        request.setAttribute("sessionList", sessionList);
+        request.setAttribute("sessionList", sessionsForPage);
 
         request.getRequestDispatcher("/jsp/schedule.jsp").forward(request, response);
 

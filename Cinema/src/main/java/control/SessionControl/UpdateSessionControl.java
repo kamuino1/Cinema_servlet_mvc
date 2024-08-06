@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -44,6 +45,7 @@ public class UpdateSessionControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession sessions = request.getSession();
         SessionDAO sessionDao = new SessionDAO();
         FilmDAO fdao = new FilmDAO();
         RoomDAO rdao = new RoomDAO();
@@ -60,33 +62,37 @@ public class UpdateSessionControl extends HttpServlet {
 
         Session session = new Session(sessionid, tiketPrice, sdate, stime, fdao.getFilmById(filmid), asession.getSeatsAmount());
         session.setRoom(rdao.getRoomById(roomid));
-        
-        sessionDao.updateSession(session);
-        if (roomid != roomidBefor) {
-            List<Seat> oldSeats = seatdao.getAllFreeSeats(sessionid);
-            System.out.println("Check: oldSeats" + oldSeats);
-            List<Seat> seatsByRoom = seatdao.getAllSeatsByRoomId(roomid);
-            List<Seat> newSeats = new ArrayList<>();
+        if (sessionDao.checkSession(session)) {
+            sessionDao.updateSession(session);
+            if (roomid != roomidBefor) {
+                List<Seat> oldSeats = seatdao.getAllFreeSeats(sessionid);
+                System.out.println("Check: oldSeats" + oldSeats);
+                List<Seat> seatsByRoom = seatdao.getAllSeatsByRoomId(roomid);
+                List<Seat> newSeats = new ArrayList<>();
 
-            for (Seat s : seatsByRoom) {
-                Optional<Seat> rs = oldSeats.stream()
-                        .filter(seat -> seat.getPlaceNumber() == s.getPlaceNumber()
-                        && seat.getRowNumber() == s.getRowNumber())
-                        .findFirst();
+                for (Seat s : seatsByRoom) {
+                    Optional<Seat> rs = oldSeats.stream()
+                            .filter(seat -> seat.getPlaceNumber() == s.getPlaceNumber()
+                            && seat.getRowNumber() == s.getRowNumber())
+                            .findFirst();
 
-                if (rs.isPresent()) {
-                    System.out.println(s);
-                    newSeats.add(s);
+                    if (rs.isPresent()) {
+                        System.out.println(s);
+                        newSeats.add(s);
+                    }
+
                 }
-                
+                seatdao.deleteFreeSeatsBySession(sessionid);
+                for (Seat seat : newSeats) {
+                    seatdao.addFreeSeats(sessionid, seat.getId());
+                }
             }
-            seatdao.deleteFreeSeatsBySession(sessionid);
-            for(Seat seat : newSeats){
-                seatdao.addFreeSeats(sessionid, seat.getId());
-            }
+            sessions.setAttribute("check_session", "update");
+        }else {
+            sessions.setAttribute("check_session", "nonUpdate");
         }
-        response.sendRedirect("loadSessionSetting");
-//        request.getRequestDispatcher("loadSessionSetting").forward(request, response);
+
+        request.getRequestDispatcher("loadSessionSetting").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
