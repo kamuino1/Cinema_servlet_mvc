@@ -41,7 +41,7 @@
 <main role="main" class="container">
     <div class="row">
         <div class="col-md-12 blog-main">
-            <h1 class="">${pageTitle}</h1>
+            <h1 class="">Update Session</h1>
             <div class="panel-group" id="accordion">
                 <div class="panel panel-primary">
                     <div class="panel-collapse">

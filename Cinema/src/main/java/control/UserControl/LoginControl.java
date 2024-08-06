@@ -37,7 +37,7 @@ public class LoginControl extends HttpServlet {
         String email = request.getParameter("login");
         String password = request.getParameter("password");
         if (email == null || email.trim().isEmpty()) {
-            request.setAttribute("email_empty", true);
+            request.setAttribute("email_empty", false);
             request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
         } else {
             UserDAO dao = new UserDAO();

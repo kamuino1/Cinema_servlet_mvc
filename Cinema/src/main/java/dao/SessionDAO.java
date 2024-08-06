@@ -145,7 +145,10 @@ public class SessionDAO extends DAO {
         LocalDateTime timeEnd1 = timeBegin1.plus(session.getFilm().getDuration());
         System.out.println("BeginTime1:" + timeBegin1 + "EndTime1" + timeEnd1);
         List<Session> sList = getAllSession("all", "dateTime", "acs");
-
+        if (session.getId() != 0) {
+            sList.removeIf(s -> s.getId() == session.getId());
+        }
+        
         for (Session s : sList) {
             System.out.println(s);
             LocalDateTime timeBegin2 = s.getDate().atTime(s.getTime());
@@ -162,9 +165,9 @@ public class SessionDAO extends DAO {
 
     public int getIdSession(int filmid, int roomid, LocalDate date, LocalTime time) throws Exception {
         List<Session> sessions = getAllSession("all", "dateTime", "asc");
-        for(Session s : sessions){
-            if(s.getFilm().getId() == filmid && s.getRoom().getId() == roomid
-                    && s.getDate().equals(date) && s.getTime().equals(time)){
+        for (Session s : sessions) {
+            if (s.getFilm().getId() == filmid && s.getRoom().getId() == roomid
+                    && s.getDate().equals(date) && s.getTime().equals(time)) {
                 return s.getId();
             }
         }
