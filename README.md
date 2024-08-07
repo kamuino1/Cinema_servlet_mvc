@@ -1,7 +1,5 @@
 # Cinema_servlet_mvc
 
-# Cinema_servlet_mvc
-
 Công nghệ sử dụng:
 
 - Back end: Java servlet MVC
