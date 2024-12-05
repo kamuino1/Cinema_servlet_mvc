@@ -8,8 +8,13 @@ import dao.FilmDAO;
 import dao.RoomDAO;
 import dao.SeatDAO;
 import dao.SessionDAO;
+import dao.TicketDAO;
+import dao.UserDAO;
+import entities.EmailModel;
 import entities.Seat;
 import entities.Session;
+import entities.Ticket;
+import entities.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,6 +30,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 /**
  *
@@ -50,6 +58,8 @@ public class UpdateSessionControl extends HttpServlet {
         FilmDAO fdao = new FilmDAO();
         RoomDAO rdao = new RoomDAO();
         SeatDAO seatdao = new SeatDAO();
+        TicketDAO ticketdao = new TicketDAO();
+        UserDAO userdao = new UserDAO();
 
         int sessionid = Integer.parseInt(request.getParameter("asession"));
         int filmid = Integer.parseInt((String) request.getParameter("filmId"));
@@ -57,16 +67,18 @@ public class UpdateSessionControl extends HttpServlet {
         LocalDate sdate = LocalDate.parse(request.getParameter("date"));
         LocalTime stime = LocalTime.parse(request.getParameter("time"));
         BigDecimal tiketPrice = new BigDecimal(request.getParameter("ticketPrice"));
-        Session asession = sessionDao.getSessionById(sessionid);
-        int roomidBefor = asession.getRoom().getId();
+        
+        Session beforSession = sessionDao.getSessionById(sessionid);
+        int roomidBefor = beforSession.getRoom().getId();
+        beforSession.setRoom(rdao.getRoomById(roomidBefor));
 
-        Session session = new Session(sessionid, tiketPrice, sdate, stime, fdao.getFilmById(filmid), asession.getSeatsAmount());
-        session.setRoom(rdao.getRoomById(roomid));
-        if (sessionDao.checkSession(session)) {
-            sessionDao.updateSession(session);
+        Session updateSession = new Session(sessionid, tiketPrice, sdate, stime, fdao.getFilmById(filmid), beforSession.getSeatsAmount());
+        updateSession.setRoom(rdao.getRoomById(roomid));
+        
+        if (sessionDao.checkSession(updateSession)) {
+            sessionDao.updateSession(updateSession);
             if (roomid != roomidBefor) {
                 List<Seat> oldSeats = seatdao.getAllFreeSeats(sessionid);
-                System.out.println("Check: oldSeats" + oldSeats);
                 List<Seat> seatsByRoom = seatdao.getAllSeatsByRoomId(roomid);
                 List<Seat> newSeats = new ArrayList<>();
 
@@ -77,14 +89,77 @@ public class UpdateSessionControl extends HttpServlet {
                             .findFirst();
 
                     if (rs.isPresent()) {
-                        System.out.println(s);
                         newSeats.add(s);
                     }
-
                 }
                 seatdao.deleteFreeSeatsBySession(sessionid);
                 for (Seat seat : newSeats) {
                     seatdao.addFreeSeats(sessionid, seat.getId());
+                }
+            }
+            
+            List<Ticket> tickets = ticketdao.getAllTicketBySessionId(updateSession.getId());
+            if(tickets != null){
+                for(Ticket t : tickets){
+                    t.setSeat(seatdao.getSeatById(t.getSeat().getId()));
+                    User u = userdao.getUserById(t.getUser().getId());
+                    
+                    String recipient = u.getEmail();
+                    String subject = "Thông báo cập nhật lịch chiếu";
+                    String content = "Xin chào " + u.getFirstName() + " " + u.getLastName() + "/n" 
+                                        +"Chúng tôi xin thống báo: /n"
+                                        +"Lịch chiếu của bạn: " 
+                                        + "Phòng " + beforSession.getRoom().getRoomName()
+                                        + ", ghế số " + t.getSeat().getPlaceNumber()
+                                        + ", hàng "  + t.getSeat().getRowNumber()
+                                        + ", phim " + beforSession.getFilm().getName()
+                                        + ", ngày giờ: " + beforSession.getDate() + " " + beforSession.getTime()
+                                        + "đã được đổi sang lịch chiếu mới./n "
+                                        + "Thông tin lịch chiếu mới: "
+                                        + "Phòng " + updateSession.getRoom().getRoomName()
+                                        + ", ghế số " + t.getSeat().getPlaceNumber()
+                                        + ", hàng "  + t.getSeat().getRowNumber()
+                                        + ", phim " + updateSession.getFilm().getName()
+                                        + ", ngày giờ: " + updateSession.getDate() + " " + updateSession.getTime()
+                                        + "/n"
+                                        + "Nếu bạn không đồng ý với lịch chiếu được thay đổi vui lòng liên hệ lại với rạp chiếu phim qua email này./n/n"
+                                        + "Xin cảm ơn!";
+                    EmailModel emailModel = new EmailModel(recipient,subject,content);
+                    emailModel.saveEmailToFile();
+
+                    // Cấu hình JavaMail
+                    Properties properties = new Properties();
+                    properties.put("mail.smtp.host", emailModel.getHost());
+                    properties.put("mail.smtp.port", emailModel.getPort());
+                    properties.put("mail.smtp.auth", "true");
+                    properties.put("mail.smtp.starttls.enable", "true");
+
+                    // Xác thực tài khoản email
+                    javax.mail.Session s = javax.mail.Session.getInstance(properties, new Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(emailModel.getEmail(), emailModel.getPassword());
+                        }
+                    });
+
+                    try {
+                        // Tạo email
+                        Message message = new MimeMessage(s);
+                        message.setFrom(new InternetAddress(emailModel.getEmail()));
+                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+                        message.setSubject(subject);
+                        message.setText(content);
+
+                        // Gửi email
+                        Transport.send(message);
+
+                        
+
+                        response.getWriter().println("Email đã gửi và lưu thành công!");
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                        response.getWriter().println("Gửi email thất bại: " + e.getMessage());
+                    }
                 }
             }
             sessions.setAttribute("check_session", "update");

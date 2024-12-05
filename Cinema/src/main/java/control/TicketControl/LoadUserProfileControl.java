@@ -4,6 +4,7 @@
  */
 package control.TicketControl;
 
+import dao.RoomDAO;
 import dao.SeatDAO;
 import dao.SessionDAO;
 import dao.TicketDAO;
@@ -43,6 +44,7 @@ public class LoadUserProfileControl extends HttpServlet {
         TicketDAO ticketDao = new TicketDAO();
         SessionDAO sessionDao = new SessionDAO();
         SeatDAO seatDao = new SeatDAO();
+        RoomDAO roomDao = new RoomDAO();
         HttpSession session = request.getSession();
         User u = (User) session.getAttribute("acc");
 
@@ -51,6 +53,7 @@ public class LoadUserProfileControl extends HttpServlet {
         for (Ticket t : tickets) {
             Session s = sessionDao.getSessionById(t.getSession().getId());
             Seat seat = seatDao.getSeatById(t.getSeat().getId());
+            seat.setRoom(roomDao.getRoomById(seat.getRoom().getId()));
             ticketList.add(new Ticket(s, u, seat, t.getTicketPrice()));
         }
 

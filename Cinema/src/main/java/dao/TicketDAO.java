@@ -20,7 +20,9 @@ import java.util.List;
 public class TicketDAO extends DAO {
 
     private static final String INSERT = "INSERT INTO dbo.tickets (session_id, user_id, seat_id, ticket_price) VALUES (?, ?, ?, ?);";
-    private static final String SELECT_BY_USER_ID = "SELECT * FROM tickets WHERE user_id=?";
+    private static final String SELECT = "SELECT * FROM tickets";
+    private static final String USER_ID = " WHERE user_id=?";
+    private static final String SESSION_ID = " WHERE session_id=?";
     
 
     public void addTicket(Ticket ticket) {
@@ -39,7 +41,7 @@ public class TicketDAO extends DAO {
     }
     
     public List<Ticket> getAllTicketByUserId(int userId){
-        String query = SELECT_BY_USER_ID;
+        String query = SELECT + USER_ID;
         List<Ticket> tickets = new ArrayList<>();
         try {
             conn = new DBContext().getConnection();
@@ -50,7 +52,29 @@ public class TicketDAO extends DAO {
                 Session session = new Session();
                 User u = new User();
                 Seat seat = new Seat();
-                Film film = new Film();
+                session.setId(rs.getInt("session_id"));
+                u.setId(rs.getInt("user_id"));
+                seat.setId(rs.getInt("seat_id"));
+                tickets.add(new Ticket(session, u, seat, rs.getBigDecimal("ticket_price")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tickets;
+    }
+    
+    public List<Ticket> getAllTicketBySessionId(int sessionId){
+        String query = SELECT + SESSION_ID;
+        List<Ticket> tickets = new ArrayList<>();
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, sessionId);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Session session = new Session();
+                User u = new User();
+                Seat seat = new Seat();
                 session.setId(rs.getInt("session_id"));
                 u.setId(rs.getInt("user_id"));
                 seat.setId(rs.getInt("seat_id"));

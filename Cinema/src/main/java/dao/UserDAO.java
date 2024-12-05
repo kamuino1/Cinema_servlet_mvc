@@ -90,4 +90,27 @@ public class UserDAO extends DAO {
         } catch (Exception e) {
         }
     }
+    
+    public User getUserById(int userId) {
+        String query = "select * from users\n"
+                + "where user_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new User(rs.getInt(1),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString("phone_number"),
+                        User.Role.getUserRoleFromString(getRoleName(rs.getInt("role_id"))),
+                        rs.getBoolean("notification"));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 }
