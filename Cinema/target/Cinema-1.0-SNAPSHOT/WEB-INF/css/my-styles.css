@@ -1,0 +1,289 @@
+
+body {
+    background-image: url(./images/site_pattern.png);
+    background-repeat: repeat;
+}
+
+.blog-header {
+    line-height: 1;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-header-logo {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-size: 2.25rem;
+}
+
+.blog-header-logo:hover {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+.display-4 {
+    font-size: 2.5rem;
+}
+
+.container {
+    background-color: #fff;
+    max-width: 85%;
+    padding: 1rem 4rem;
+}
+
+.container-fluid {
+    background-color: #fff
+}
+
+.footer-info {
+    max-width: fit-content;
+}
+
+.footer-made-by {
+    margin: 0 auto;
+    display: block;
+    max-width: fit-content;
+}
+
+.poster-img {
+    max-width: 100%
+}
+
+.form-error {
+    color: red;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+.row.card-body {
+    padding: 0;
+}
+
+.film-post {
+    background-color: #ffffff85;
+}
+
+label.menu-item {
+    color: #007bff;
+}
+
+span.menu-item {
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+
+
+.active_pagination {
+    background: #8fd8ff !important;
+}
+
+#buttons-pagination {
+    text-align-last: center;
+    margin: 0 auto;
+}
+
+#buttons-pagination input[type="button"] {
+    position: relative;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+/**/
+/*  Dropdown menu styles */
+/**/
+#dropdownMenuButton {
+    background: 0;
+    border: 0;
+    color: #527eff;
+}
+
+#dropdownLangButton {
+    background: 0;
+    border: 0;
+    color: #527eff;
+}
+
+.blog-pagination {
+    max-width: max-content;
+}
+
+main.container {
+    min-height: 595px;
+}
+
+.vertical-buttons-4 {
+    margin: 4rem 0;
+}
+
+.vertical-buttons-2 {
+    margin: 2rem 0;
+}
+
+i.fa.fa-key.fa-lg.me-3.fa-fw,
+i.fa.fa-envelope.fa-lg.me-3.fa-fw,
+i.fa.fa-lock.fa-lg.me-3.fa-fw {
+    height: 2.2em;
+}
+
+.card-header-custom {
+    border-radius: .25rem .25rem 0 0;
+    padding: .3rem 1.25rem;
+    background-color: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+}
+
+.card-header-custom + .card-group > .card {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.card-custom-title {
+    text-align: center;
+    margin: 0 auto;
+}
+
+article.card-filter {
+    max-width: fit-content;
+    border: 1px solid rgba(0, 0, 0, .125);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.header-filter {
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem 0.25rem 0 0;
+    padding: 0.3rem 1.25rem;
+    background-color: #f5f5f5;
+    border-bottom: 0;
+}
+
+.btn-sorter {
+    margin: 0 auto;
+    display: block;
+    min-width: fit-content;
+}
+
+.filter-helper {
+    margin: auto;
+    text-align: center;
+}
+
+#amountSelector {
+    max-width: fit-content;
+    float: right;
+}
+
+#elementsOnPage {
+    max-width: 2.9rem;
+}
+
+.under-filter-element,
+.under-filter-block {
+    margin: auto 0;
+}
+
+.main-carousel {
+    background-image: url(./images/carousel.jpg);
+    background-size: cover;
+}
+
+.main-carousel-text {
+    background-color: black;
+    opacity: 80%;
+    border-radius: 0.3rem;
+}
+
+/**/
+/* Seat in session*/
+/**/
+[type=checkbox].seatsElement {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* IMAGE STYLES */
+[type=checkbox].seatsElement + img {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=checkbox]:checked + img {
+    outline: 2px solid #061165;
+}
+
+.seatsImg {
+    max-width: 1.8rem;
+}
+
+.seatsElement-admin {
+    cursor: default !important;
+}
+
+.seatsImg-admin {
+    width: 2.3rem;
+    max-width: 2.3rem !important;
+    margin: 0.1em;
+}
+
+/**/
+/* Add film page styles*/
+/**/
+.form-inline .form-group {
+    margin-right: 10px;
+}
+
+.well-primary {
+    background-color: #3498db;
+}
+
+
+.well-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+    border-color: rgb(53, 126, 189);
+}
+
+.glyphicon {
+    margin-right: 5px;
+}
+
+.image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.image-preview-input input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.image-preview-input-title {
+    margin-left: 2px;
+}
+
+/**/
+
+@media (min-width: 768px) {
+    .display-4 {
+        font-size: 3rem;
+    }
+}

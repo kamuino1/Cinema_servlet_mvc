@@ -157,9 +157,12 @@ public class SeatDAO extends DAO {
             ps1.setInt(1, seatid);
             ResultSet rs1 = ps1.executeQuery();
             while (rs1.next()) {
+                Room room = new Room();
+                room.setId(rs1.getInt("room_id"));
                 Seat seat = new Seat(rs1.getInt("seat_id"),
                         rs1.getInt("row_number"),
                         rs1.getInt("place_number"));
+                seat.setRoom(room);
                 return seat;
             }
 

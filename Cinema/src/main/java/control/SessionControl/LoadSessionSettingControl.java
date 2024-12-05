@@ -93,7 +93,7 @@ public class LoadSessionSettingControl extends HttpServlet {
             session.removeAttribute("check_session");
             request.getRequestDispatcher("/jsp/adminPages/sessionsSetting.jsp").forward(request, response);
         }else if(check_session.equals("nonUpdate")){
-            request.setAttribute("session_mess", "Session time overlapy");
+            request.setAttribute("session_mess", "Session time overlap");
             session.removeAttribute("check_session");
             request.getRequestDispatcher("/jsp/adminPages/sessionsSetting.jsp").forward(request, response);
         }
