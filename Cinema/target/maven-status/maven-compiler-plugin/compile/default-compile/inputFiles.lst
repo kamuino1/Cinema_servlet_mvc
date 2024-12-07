@@ -1,6 +1,7 @@
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\LoadAddSessionControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\dao\TicketDAO.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\entities\Session.java
+D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\mailService\GMailer.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\entities\EmailModel.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\UserControl\LogOutControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\dao\FilmDAO.java
@@ -9,8 +10,6 @@ D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\LoadUp
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\dao\NewClass.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\SessionInforControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\LoadSessionSettingControl.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\TicketControl\SaveTicketControl.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\FilmControl\DeleteFilmControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\entities\Seat.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\entities\Ticket.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\UpdateSessionControl.java
@@ -21,13 +20,9 @@ D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\Schedu
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\entities\Room.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\UserControl\SignUpControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\DeleteSessionControl.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\TicketControl\DeleteTicketControl.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\TicketControl\LoadPayingControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\SortControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\dao\DAO.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\dao\SeatDAO.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\FilmControl\DetailFilmControl.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\FilmControl\UpdateFilmControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\tags\FilmGenresTag.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\dao\UserDAO.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\UserControl\LoginControl.java
@@ -37,9 +32,6 @@ D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\entities\User.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\TicketControl\LoadUserProfileControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\entities\Film.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\MainControl.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\FilmControl\LoadFilmSetting.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\FilmControl\LoadUpdateFilmControl.java
-D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\FilmControl\AddFilmControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\context\DBContext.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SessionControl\AddSessionControl.java
 D:\1\1tttn\Cinema_servlet_mvc\Cinema\src\main\java\control\SearchControl.java

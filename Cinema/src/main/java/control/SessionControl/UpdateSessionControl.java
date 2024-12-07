@@ -30,9 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
+import mailService.GMailer;
 
 /**
  *
@@ -103,63 +101,40 @@ public class UpdateSessionControl extends HttpServlet {
                 for(Ticket t : tickets){
                     t.setSeat(seatdao.getSeatById(t.getSeat().getId()));
                     User u = userdao.getUserById(t.getUser().getId());
+                    int updateSeatId = seatdao.getSeatId(t.getSeat().getPlaceNumber(), 
+                                                        t.getSeat().getRowNumber(), 
+                                                        roomid);
+                    System.out.println(updateSeatId);
+                    t.setSeat(seatdao.getSeatById(updateSeatId));
+                    t.setTicketPrice(tiketPrice);
+                    System.out.println("Seat ID: " + t.getSeat().getId());
+                    System.out.println("Ticket Price: " + t.getTicketPrice());
+                    System.out.println("Ticket ID: " + t.getId());
+                    ticketdao.updateTicket(t);
                     
                     String recipient = u.getEmail();
-                    String subject = "Thông báo cập nhật lịch chiếu";
-                    String content = "Xin chào " + u.getFirstName() + " " + u.getLastName() + "/n" 
-                                        +"Chúng tôi xin thống báo: /n"
-                                        +"Lịch chiếu của bạn: " 
-                                        + "Phòng " + beforSession.getRoom().getRoomName()
-                                        + ", ghế số " + t.getSeat().getPlaceNumber()
-                                        + ", hàng "  + t.getSeat().getRowNumber()
-                                        + ", phim " + beforSession.getFilm().getName()
-                                        + ", ngày giờ: " + beforSession.getDate() + " " + beforSession.getTime()
-                                        + "đã được đổi sang lịch chiếu mới./n "
-                                        + "Thông tin lịch chiếu mới: "
-                                        + "Phòng " + updateSession.getRoom().getRoomName()
-                                        + ", ghế số " + t.getSeat().getPlaceNumber()
-                                        + ", hàng "  + t.getSeat().getRowNumber()
-                                        + ", phim " + updateSession.getFilm().getName()
-                                        + ", ngày giờ: " + updateSession.getDate() + " " + updateSession.getTime()
-                                        + "/n"
-                                        + "Nếu bạn không đồng ý với lịch chiếu được thay đổi vui lòng liên hệ lại với rạp chiếu phim qua email này./n/n"
-                                        + "Xin cảm ơn!";
-                    EmailModel emailModel = new EmailModel(recipient,subject,content);
-                    emailModel.saveEmailToFile();
+                    String subject = "Notification of Movie Schedule Update";
+                    String content = "Dear " + u.getFirstName() + " " + u.getLastName() + ",\n\n" 
+                                    + "We would like to inform you about a change to your movie schedule:\n\n"
+                                    + "Previous schedule details:\n"
+                                    + "- Room: " + beforSession.getRoom().getRoomName() + "\n"
+                                    + "- Seat: " + t.getSeat().getPlaceNumber() + "\n"
+                                    + "- Row: " + t.getSeat().getRowNumber() + "\n"
+                                    + "- Movie: " + beforSession.getFilm().getName() + "\n"
+                                    + "- Date and Time: " + beforSession.getDate() + " " + beforSession.getTime() + "\n\n"
+                                    + "Updated schedule details:\n"
+                                    + "- Room: " + updateSession.getRoom().getRoomName() + "\n"
+                                    + "- Seat: " + t.getSeat().getPlaceNumber() + "\n"
+                                    + "- Row: " + t.getSeat().getRowNumber() + "\n"
+                                    + "- Movie: " + updateSession.getFilm().getName() + "\n"
+                                    + "- Date and Time: " + updateSession.getDate() + " " + updateSession.getTime() + "\n\n"
+                                    + "If you do not agree with the updated schedule, please contact the cinema using this email address.\n\n"
+                                    + "Thank you for your understanding!\n"
+                                    + "Best regards,\n"
+                                    + "Your Cinema Team";
 
-                    // Cấu hình JavaMail
-                    Properties properties = new Properties();
-                    properties.put("mail.smtp.host", emailModel.getHost());
-                    properties.put("mail.smtp.port", emailModel.getPort());
-                    properties.put("mail.smtp.auth", "true");
-                    properties.put("mail.smtp.starttls.enable", "true");
-
-                    // Xác thực tài khoản email
-                    javax.mail.Session s = javax.mail.Session.getInstance(properties, new Authenticator() {
-                        @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(emailModel.getEmail(), emailModel.getPassword());
-                        }
-                    });
-
-                    try {
-                        // Tạo email
-                        Message message = new MimeMessage(s);
-                        message.setFrom(new InternetAddress(emailModel.getEmail()));
-                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-                        message.setSubject(subject);
-                        message.setText(content);
-
-                        // Gửi email
-                        Transport.send(message);
-
-                        
-
-                        response.getWriter().println("Email đã gửi và lưu thành công!");
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                        response.getWriter().println("Gửi email thất bại: " + e.getMessage());
-                    }
+                    GMailer gMailer = new GMailer();
+                    gMailer.sendMail(subject, content, recipient);
                 }
             }
             sessions.setAttribute("check_session", "update");

@@ -21,12 +21,14 @@ public class SeatDAO extends DAO {
 
     private static final String SELECT_ALL = "SELECT * FROM seats";
     private static final String DELETE_FREE_SEATS = "DELETE FROM free_seats ";
-    private static final String SEAT_BY_ID = "SELECT * FROM seats WHERE seat_id = ?";
-
+    
+    private static final String SEAT_ID = " WHERE row_number = ? AND place_number = ? AND room_id = ?";
+    private static final String SEAT_BY_ID = " WHERE seat_id = ?";
     private static final String WHERE_SESSIONID = " WHERE session_id = ?";
     private static final String AND_SESSIONID = "  AND session_id = ?";
     private static final String WHERE_SEATID = " WHERE seat_id = ?";
     private static final String WHERE_ROOMID = " WHERE room_id = ?;";
+    
     private static final String INSERT_FREE_SEAT = "  INSERT INTO free_seats (session_id, seat_id)  VALUES (?, ?); ";
     private static final String SELECT_FREE_SEATS_BY_SESSION_ID = "SELECT * FROM free_seats JOIN seats s on free_seats.seat_id = s.seat_id WHERE session_id=?";
     
@@ -150,7 +152,7 @@ public class SeatDAO extends DAO {
     }
 
     public Seat getSeatById(int seatid) {
-        String query = SEAT_BY_ID;
+        String query = SELECT_ALL + SEAT_BY_ID;
         try {
             Connection conn1 = new DBContext().getConnection();
             PreparedStatement ps1 = conn1.prepareStatement(query);
@@ -170,5 +172,24 @@ public class SeatDAO extends DAO {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public int getSeatId(int placeNumber, int rowNumber, int roomid) {
+        String query = SELECT_ALL + SEAT_ID;
+        try {
+            Connection conn1 = new DBContext().getConnection();
+            PreparedStatement ps1 = conn1.prepareStatement(query);
+            ps1.setInt(1, rowNumber);
+            ps1.setInt(2, placeNumber);
+            ps1.setInt(3, roomid);
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                return rs1.getInt("seat_id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

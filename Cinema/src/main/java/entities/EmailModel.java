@@ -2,8 +2,13 @@ package entities;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 /**
  * User entity
@@ -20,8 +25,8 @@ public class EmailModel {
     public EmailModel(String recipient, String subject, String content) {
         this.host = "smtp.gmail.com";
         this.port = "587";
-        this.email = "example@gmail.com";
-        this.password = "";
+        this.email = "tienp323@gmail.com";
+        this.password = "iaqi upve vgsr yvhc";
         this.recipient = recipient;
         this.subject = subject;
         this.content = content;
@@ -88,9 +93,8 @@ public class EmailModel {
         return "EmailModel{" + "host=" + host + ", port=" + port + ", email=" + email + ", password=" + password + '}';
     }
     
-     public void saveEmailToFile() throws IOException {
-        
-        String folderPath = "mailsave";
+    public void saveEmailToFile() throws IOException {
+        String folderPath = "D:\\1\\1tttn\\Cinema_servlet_mvc\\Cinema\\src\\main\\java\\mailsave";
         File folder = new File(folderPath);
 
         if (!folder.exists()) {
@@ -100,10 +104,45 @@ public class EmailModel {
         String fileName = "email_" + System.currentTimeMillis() + ".txt";
         File file = new File(folder, fileName);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+        // Sử dụng OutputStreamWriter với UTF-8
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"))) {
             writer.write("To: " + recipient + "\n");
             writer.write("Subject: " + subject + "\n");
             writer.write("Content:\n" + content);
+        }
+    }
+
+    public boolean sendMail(){
+        
+        // Cấu hình JavaMail
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", port);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        // Xác thực tài khoản email
+        javax.mail.Session s = javax.mail.Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(email, password);
+            }
+        });
+
+        try {
+            // Tạo email
+            Message message = new MimeMessage(s);
+            message.setFrom(new InternetAddress(email));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            message.setSubject(subject);
+            message.setText(content);
+
+            // Gửi email
+            Transport.send(message);
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

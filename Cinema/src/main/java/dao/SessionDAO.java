@@ -140,24 +140,19 @@ public class SessionDAO extends DAO {
     }
 
     public Boolean checkSession(Session session) throws Exception {
-        System.out.println("Begin check: ");
         LocalDateTime timeBegin1 = session.getDate().atTime(session.getTime());
         LocalDateTime timeEnd1 = timeBegin1.plus(session.getFilm().getDuration());
-        System.out.println("BeginTime1:" + timeBegin1 + "EndTime1" + timeEnd1);
         List<Session> sList = getAllSession("all", "dateTime", "acs");
         if (session.getId() != 0) {
             sList.removeIf(s -> s.getId() == session.getId());
         }
         
         for (Session s : sList) {
-            System.out.println(s);
             LocalDateTime timeBegin2 = s.getDate().atTime(s.getTime());
             LocalDateTime timeEnd2 = timeBegin2.plus(s.getFilm().getDuration());
-            System.out.println(s.getId() + ": BeginTime2:" + timeBegin2 + "EndTime2" + timeEnd2);
             if ((timeBegin1.isBefore(timeEnd2) || timeBegin1.isEqual(timeEnd2)) && (timeEnd1.isAfter(timeBegin2) || timeEnd1.isEqual(timeBegin2))) {
                 System.out.println("Checked");
                 return false;
-
             }
         }
         return true;

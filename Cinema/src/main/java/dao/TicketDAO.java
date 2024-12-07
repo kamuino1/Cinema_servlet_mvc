@@ -19,7 +19,8 @@ import java.util.List;
  */
 public class TicketDAO extends DAO {
 
-    private static final String INSERT = "INSERT INTO dbo.tickets (session_id, user_id, seat_id, ticket_price) VALUES (?, ?, ?, ?);";
+    private static final String INSERT = "INSERT INTO dbo.tickets (session_id, user_id, seat_id, ticket_price) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE_SEAT_ID = "UPDATE dbo.tickets SET seat_id = ?, ticket_price = ? WHERE ticket_id = ?";
     private static final String SELECT = "SELECT * FROM tickets";
     private static final String USER_ID = " WHERE user_id=?";
     private static final String SESSION_ID = " WHERE session_id=?";
@@ -34,6 +35,20 @@ public class TicketDAO extends DAO {
             ps.setInt(2, ticket.getUser().getId());
             ps.setInt(3, ticket.getSeat().getId());
             ps.setBigDecimal(4, ticket.getSession().getTicketPrice());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateTicket(Ticket ticket) {
+        String query = UPDATE_SEAT_ID;
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, ticket.getSeat().getId());
+            ps.setBigDecimal(2, ticket.getTicketPrice());
+            ps.setInt(3, ticket.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +93,7 @@ public class TicketDAO extends DAO {
                 session.setId(rs.getInt("session_id"));
                 u.setId(rs.getInt("user_id"));
                 seat.setId(rs.getInt("seat_id"));
-                tickets.add(new Ticket(session, u, seat, rs.getBigDecimal("ticket_price")));
+                tickets.add(new Ticket(rs.getInt("ticket_id"),session, u, seat, rs.getBigDecimal("ticket_price")));
             }
         } catch (Exception e) {
             e.printStackTrace();
