@@ -5,6 +5,7 @@ Technologies used:
 - Back end: Java Servlet MVC
 - Front end: JSP, JSTL, Bootstrap
 - Database: SQL Server
+
 This is a cinema management system with the following features:
 
 - Login and registration (User and Admin roles).
