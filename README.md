@@ -1,25 +1,24 @@
 # Cinema_servlet_mvc
 
-Công nghệ sử dụng:
+Technologies used:
 
-- Back end: Java servlet MVC
-- Front end: JSP, JSTL, bootstrap.
-- Database: SQL server.
+- Back end: Java Servlet MVC
+- Front end: JSP, JSTL, Bootstrap
+- Database: SQL Server
+This is a cinema management system with the following features:
 
-Đây là hệ thống quản lý rạp chiếu phim gồm các chức năng:
-
-- Đăng nhập, đăng ký (Phân quyền user, admin)
-- Quản lý phim (CRUD)
-- Tìm kiếm phim (theo tên)
-- Quản lý phiên chiếu (CRUD)
-- Sắp xếp các phiên chiếu (theo ngày giờ, tên phim, …)
-- Phân trang phim, phiên chiếu.
-- Mua vé
-- Xem vé đã mua
+- Login and registration (User and Admin roles).
+- Movie management (CRUD).
+- Search for movies (by name).
+- Screening management (CRUD).
+- Sort screenings (by date, time, movie name, etc.).
+- Pagination for movies and screenings.
+- Ticket purchasing.
+- View purchased tickets.
 
   Link github: https://github.com/kamuino1/Cinema_servlet_mvc.git
 
-Biểu đồ thực thể:
+Entity-Relationship Diagram:
 ![image](https://github.com/user-attachments/assets/86800c1e-e6c3-42fd-bc50-c392a453b8e4)
 
 
